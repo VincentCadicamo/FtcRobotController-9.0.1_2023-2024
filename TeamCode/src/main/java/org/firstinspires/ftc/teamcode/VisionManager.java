@@ -20,7 +20,7 @@ public class VisionManager {
     private Telemetry telemetry;
 
     public VisionManager(HardwareMap hardwareMap, float minConfidence, Telemetry telemetry) {
-        telemetry.addData("(VisionManager) Status: ", "<Initializing>");
+        telemetry.addData("(VisionManager) Status: ", "Initializing...");
         telemetry.update();
         this.telemetry = telemetry;
         tfod = new TfodProcessor.Builder()
