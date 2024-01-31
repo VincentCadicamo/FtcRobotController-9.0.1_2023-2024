@@ -33,6 +33,7 @@ public class RobotHardware {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
         armMotor0 = hardwareMap.get(DcMotor.class, "armMotor0");
         armMotor1 = hardwareMap.get(DcMotor.class, "armMotor1");
+        //TODO: set motor devices
         liftMotor1 = hardwareMap.get(DcMotor.class, "");
         liftMotor2 = hardwareMap.get(DcMotor.class, "");
 

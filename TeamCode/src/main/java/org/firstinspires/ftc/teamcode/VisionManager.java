@@ -48,14 +48,17 @@ public class VisionManager {
         }
 
         public int getNumberOfDetections() {
+            updateVision();
             return currentRecognitions.size();
         }
 
         public List<Recognition> getRecognitions() {
+            updateVision();
             return currentRecognitions;
         }
 
         public PixelCoordinate getPixelCoordinate(int index) {
+            updateVision();
             if (index >= 0 && index < currentRecognitions.size()) {
                 if (currentRecognitions.get(index).getLabel().equals("Pixel")) {
                     Recognition recognition = currentRecognitions.get(index);
@@ -64,6 +67,15 @@ public class VisionManager {
             }
 
             return null;
+        }
+
+        public boolean determineTeamElement() {
+            updateVision();
+            List<Recognition> recognitions = getRecognitions();
+            if (recognitions.size() > 1) {
+
+            } else if (recognitions.get(0).getLabel().equals("TeamElement")) return true;
+            return false;
         }
 
 
@@ -83,6 +95,5 @@ public class VisionManager {
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
         }   // end for() loop
-
     }   // end method telemetryTfod()
-    }
+}
