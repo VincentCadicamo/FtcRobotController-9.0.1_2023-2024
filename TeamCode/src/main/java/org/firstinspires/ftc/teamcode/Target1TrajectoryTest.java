@@ -13,13 +13,13 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 public class Target1TrajectoryTest extends LinearOpMode {
     RobotHardware robot = new RobotHardware();
     SampleMecanumDrive drive;
-    Servo purpleServo;
+    //Servo purpleServo;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new SampleMecanumDrive(hardwareMap);
-        purpleServo = hardwareMap.get(Servo.class, "purplePixelServo");
-        purpleServo.setPosition(.75);
+        //purpleServo = hardwareMap.get(Servo.class, "servo7");
+        //purpleServo.setPosition(.75);
 
         //Target1
         TrajectorySequence Target1 = drive.trajectorySequenceBuilder(new Pose2d(12.00, -63.00, Math.toRadians(90.00)))
@@ -27,7 +27,7 @@ public class Target1TrajectoryTest extends LinearOpMode {
                 .lineToSplineHeading(new Pose2d(-8.00, -36.00, Math.toRadians(180.00)))
                 .lineTo(new Vector2d(51.00, -26.00))
                 .addTemporalMarker(3.5, () -> {
-                    purpleServo.setPosition(0);
+                    //purpleServo.setPosition(0);
                 })
                 .build();
 

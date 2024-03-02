@@ -16,18 +16,23 @@ public class RobotHardware {
     public DcMotor RFMotor; //Right Front Motor
 
     //These motors are used to control the hanging mechanism
-    public DcMotor armMotor0; //Arm Pivot Motor
-    public DcMotor armMotor1; //Arm Extension Motor
+    public DcMotor hangingMotor1;
+    public DcMotor hangingMotor2;
 
-    public DcMotor liftMotor1; //Motor that actuates the spool on the line slide
-    public DcMotor liftMotor2; //^
+    //These motors control the Intake and Outtake Systems
+    public DcMotor intakeMotor; //Motor that actuates the intake wheels
+    public DcMotor linearSlideMotor; //Motor that actuates the linear slide
 
-    public DcMotor outtake2;
-    public DcMotor outtake3;
+    public Servo airplaneLauncherServo;
 
-    public Servo airplane;
-    public Servo rotate;
-    public Servo clawServo;
+    public Servo pixelHolderTiltServo1;
+    public Servo pixelHolderTiltServo2;
+
+    public Servo outtakeArmServo1;
+    public Servo outtakeArmServo2;
+
+    public Servo pixelDropServo;
+
     public Servo purplePixelServo;
 
     //This is the onboard imu located on the controller hub
@@ -40,48 +45,63 @@ public class RobotHardware {
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
-        armMotor0 = hardwareMap.get(DcMotor.class, "armMotor0");
-        armMotor1 = hardwareMap.get(DcMotor.class, "armMotor1");
-        //TODO: set motor devices
-        outtake2 = hardwareMap.get(DcMotor.class, "outtake2");
-        outtake3 = hardwareMap.get(DcMotor.class, "outtake3");
 
-        airplane = hardwareMap.get(Servo.class, "airplane");
-        rotate = hardwareMap.get(Servo.class, "rotate");
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
-        purplePixelServo = hardwareMap.get(Servo.class, "purplePixelServo");
+        intakeMotor = hardwareMap.get(DcMotor.class, "Emotor0");
+        linearSlideMotor = hardwareMap.get(DcMotor.class, "Emotor1");
+        hangingMotor1 = hardwareMap.get(DcMotor.class, "Emotor2");
+        hangingMotor2 = hardwareMap.get(DcMotor.class, "Emotor3");
+
+        airplaneLauncherServo = hardwareMap.get(Servo.class, "servo5");
+
+        pixelHolderTiltServo1 = hardwareMap.get(Servo.class, "servo0");
+        pixelHolderTiltServo2 = hardwareMap.get(Servo.class, "servo1");
+
+        outtakeArmServo1 = hardwareMap.get(Servo.class, "servo2");
+        outtakeArmServo2 = hardwareMap.get(Servo.class, "servo4");
+
+        pixelDropServo = hardwareMap.get(Servo.class, "servo3");
+
+        purplePixelServo = hardwareMap.get(Servo.class, "servo6");
 
         LFMotor.setPower(0.0);
         LBMotor.setPower(0.0);
         RBMotor.setPower(0.0);
         RFMotor.setPower(0.0);
-        armMotor0.setPower(0.0);
-        armMotor1.setPower(0.0);
-        outtake2.setPower(0.0);
-        outtake3.setPower(0.0);
 
-        airplane.setPosition(1.0);
-        rotate.setPosition(0.28);
-        clawServo.setPosition(0.5);
-        purplePixelServo.setPosition(0.7);
+        intakeMotor.setPower(0.0);
+        linearSlideMotor.setPower(0.0);
+        hangingMotor1.setPower(0.0);
+        hangingMotor2.setPower(0.0);
+
+        airplaneLauncherServo.setPosition(1.0);
+
+        pixelHolderTiltServo1.setPosition(.85);
+        pixelHolderTiltServo2.setPosition(0.15);
+
+        outtakeArmServo1.setPosition(0.0);
+        outtakeArmServo2.setPosition(0.9);
+
+        pixelDropServo.setPosition(0.0);
+        purplePixelServo.setPosition(1.0);
 
         LFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
         LBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
         RBMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
         RFMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
-        armMotor0.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
-        armMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
-        outtake2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
-        outtake3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
+
+        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
+        linearSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
+        hangingMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
+        hangingMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODERS);
 
         LFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RBMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RFMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armMotor0.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        outtake2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        outtake3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hangingMotor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hangingMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 }

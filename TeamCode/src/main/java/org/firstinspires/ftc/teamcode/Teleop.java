@@ -1,31 +1,47 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
+public class Teleop extends OpMode {
 
-public class TeleopV1 extends OpMode {
+    final double PixelHolderTiltServoPos1IntakePos = .85;
+    final double PixelHolderTiltServoPos2IntakePos = .15;
+
+    final double OuttakeArmServoPos1IntakePos = .9;
+    final double OuttakeArmServoPos2IntakePos = .0;
 
     private DcMotor LFMotor;
     private DcMotor LBMotor;
     private DcMotor RBMotor;
     private DcMotor RFMotor;
 
-    private DcMotor armMotor0;
-    private DcMotor armMotor1;
+    private DcMotor intakeMotor;
+    private DcMotor linearSlideMotor;
 
-    private DcMotor outtake2;
-    private DcMotor outtake3;
+    private DcMotor hangingMotor1;
+    private DcMotor hangingMotor2;
 
-    private Servo airplane;
-    private Servo rotate;
-    private Servo clawServo;
-    private Servo purplePixelServo;
+    private Servo airplaneLauncherServo;
+
+    private Servo pixelHolderTiltServo1;
+    private Servo pixelHolderTiltServo2;
+
+    private Servo outtakeArmServo1;
+    private Servo outtakeArmServo2;
+
+    private Servo pixelDropServo;
 
     RobotHardware robot = new RobotHardware();
+
+    double outtakeArmServoPos1 = .0;
+    double outtakeArmServoPos2 = .9;
+
+    double pixelHolderTiltServoPos1 = PixelHolderTiltServoPos1IntakePos;
+    double pixelHolderTiltServoPos2 = PixelHolderTiltServoPos2IntakePos;
 
     @Override
     public void init() {
@@ -35,19 +51,25 @@ public class TeleopV1 extends OpMode {
         RBMotor = robot.RBMotor;
         RFMotor = robot.RFMotor;
 
-        armMotor0 = robot.armMotor0;
-        armMotor1 = robot.armMotor1;
-        outtake2 = robot.outtake2;
-        outtake3 = robot.outtake3;
+        intakeMotor = robot.intakeMotor;
+        linearSlideMotor = robot.linearSlideMotor;
+        hangingMotor1 = robot.hangingMotor1;
+        hangingMotor2 = robot.hangingMotor2;
 
-        airplane = robot.airplane;
-        rotate = robot.rotate;
-        clawServo = robot.clawServo;
-        purplePixelServo = robot.purplePixelServo;
+        airplaneLauncherServo = robot.airplaneLauncherServo;
+
+        pixelHolderTiltServo1 = robot.pixelHolderTiltServo1;
+        pixelHolderTiltServo2 = robot.pixelHolderTiltServo2;
+        outtakeArmServo1 = robot.outtakeArmServo1;
+        outtakeArmServo2 = robot.outtakeArmServo2;
+
+        pixelDropServo = robot.pixelDropServo;
     }
 
     @Override
     public void loop() {
+
+
 
         //Driver #1 Gamepad Controls
         //Buttons
@@ -103,38 +125,39 @@ public class TeleopV1 extends OpMode {
         LFMotor.setPower(-LeftMotorFP);
         RFMotor.setPower(RightMotorFP);
 
-        if (G2aButton) {
-            airplane.setPosition(-1.0);
-        } else {
-            airplane.setPosition(1.0);
-        }
+        linearSlideMotor.setPower(G1LeftStickY);
+        intakeMotor.setPower(-G1RightStickY * .80);
 
         if (G1aButton) {
-            clawServo.setPosition(0);
+            outtakeArmServoPos1 = 0.0;
+            outtakeArmServoPos2 = 0.9;
+
+            pixelHolderTiltServoPos1 = PixelHolderTiltServoPos1IntakePos;
+            pixelHolderTiltServoPos2 = PixelHolderTiltServoPos2IntakePos;
+
         }
+
         if (G1bButton) {
-            clawServo.setPosition(0.5);
+            outtakeArmServoPos1 = 0.8;
+            outtakeArmServoPos2 = 0.1;
+
+            pixelHolderTiltServoPos1 = .6;
+            pixelHolderTiltServoPos2 = .3;
         }
 
-        if(G1yButton || G2yButton) {
-            rotate.setPosition(0.55);
-        }
-        if(G1xButton || G2xButton) {
-            rotate.setPosition(0.27);
-        }
-
-        if(gamepad1.dpad_down) {
-            purplePixelServo.setPosition(0);
-        }
-        if(gamepad1.dpad_up) {
-            purplePixelServo.setPosition(0.7);
+        if (G1yButton) {
+            pixelDropServo.setPosition(1.0);
+        } else {
+            pixelDropServo.setPosition(0.0);
         }
 
+        outtakeArmServo1.setPosition(outtakeArmServoPos1);
+        outtakeArmServo2.setPosition(outtakeArmServoPos2);
 
-        armMotor0.setPower(-G1RightStickY);
-        armMotor1.setPower(-G2RightStickY);
+        pixelHolderTiltServo1.setPosition(pixelHolderTiltServoPos1);
+        pixelHolderTiltServo2.setPosition(pixelHolderTiltServoPos2);
 
-        outtake2.setPower(G2LeftStickY/2);
-        telemetry.addData("Pos", armMotor0.getCurrentPosition());
+        hangingMotor1.setPower(G2LeftStickY);
+        hangingMotor2.setPower(G2LeftStickY);
     }
 }
