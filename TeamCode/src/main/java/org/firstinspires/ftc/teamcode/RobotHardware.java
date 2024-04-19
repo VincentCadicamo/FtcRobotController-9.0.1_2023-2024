@@ -35,6 +35,8 @@ public class RobotHardware {
 
     public Servo purplePixelServo;
 
+    public Servo intakeRollerServo;
+
     //This is the onboard imu located on the controller hub
     public IMU imu;
 
@@ -51,7 +53,7 @@ public class RobotHardware {
         hangingMotor1 = hardwareMap.get(DcMotor.class, "Emotor2");
         hangingMotor2 = hardwareMap.get(DcMotor.class, "Emotor3");
 
-        airplaneLauncherServo = hardwareMap.get(Servo.class, "servo5");
+        airplaneLauncherServo = hardwareMap.get(Servo.class, "servo6");
 
         pixelHolderTiltServo1 = hardwareMap.get(Servo.class, "servo0");
         pixelHolderTiltServo2 = hardwareMap.get(Servo.class, "servo1");
@@ -61,7 +63,10 @@ public class RobotHardware {
 
         pixelDropServo = hardwareMap.get(Servo.class, "servo3");
 
-        purplePixelServo = hardwareMap.get(Servo.class, "servo6");
+        purplePixelServo = hardwareMap.get(Servo.class, "purplePixelServo");
+        intakeRollerServo = hardwareMap.get(Servo.class, "servo7");
+
+
 
         LFMotor.setPower(0.0);
         LBMotor.setPower(0.0);

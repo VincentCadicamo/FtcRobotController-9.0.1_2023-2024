@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class Teleop extends OpMode {
 
-    final double PixelHolderTiltServoPos1IntakePos = .85;
-    final double PixelHolderTiltServoPos2IntakePos = .15;
+    final double PixelHolderTiltServoPos1IntakePos = .8;
+    final double PixelHolderTiltServoPos2IntakePos = .2;
 
     final double OuttakeArmServoPos1IntakePos = .9;
     final double OuttakeArmServoPos2IntakePos = .0;
@@ -40,8 +40,8 @@ public class Teleop extends OpMode {
     double outtakeArmServoPos1 = .0;
     double outtakeArmServoPos2 = .9;
 
-    double pixelHolderTiltServoPos1 = PixelHolderTiltServoPos1IntakePos;
-    double pixelHolderTiltServoPos2 = PixelHolderTiltServoPos2IntakePos;
+    double pixelHolderTiltServoPos1 = .8;
+    double pixelHolderTiltServoPos2 = .2;
 
     @Override
     public void init() {
@@ -68,9 +68,6 @@ public class Teleop extends OpMode {
 
     @Override
     public void loop() {
-
-
-
         //Driver #1 Gamepad Controls
         //Buttons
         boolean G1xButton = gamepad1.x;
@@ -126,29 +123,44 @@ public class Teleop extends OpMode {
         RFMotor.setPower(RightMotorFP);
 
         linearSlideMotor.setPower(G1LeftStickY);
-        intakeMotor.setPower(-G1RightStickY * .80);
+        intakeMotor.setPower(-G2RightStickY * .80);
 
         if (G1aButton) {
             outtakeArmServoPos1 = 0.0;
             outtakeArmServoPos2 = 0.9;
 
-            pixelHolderTiltServoPos1 = PixelHolderTiltServoPos1IntakePos;
-            pixelHolderTiltServoPos2 = PixelHolderTiltServoPos2IntakePos;
-
+            pixelHolderTiltServoPos1 = .8;
+            pixelHolderTiltServoPos2 = .2;
         }
 
         if (G1bButton) {
             outtakeArmServoPos1 = 0.8;
             outtakeArmServoPos2 = 0.1;
 
-            pixelHolderTiltServoPos1 = .6;
-            pixelHolderTiltServoPos2 = .3;
+            pixelHolderTiltServoPos1 = 0.45;
+            pixelHolderTiltServoPos2 = 0.55;
         }
 
         if (G1yButton) {
             pixelDropServo.setPosition(1.0);
         } else {
             pixelDropServo.setPosition(0.0);
+        }
+
+        if (G2aButton) {
+            robot.airplaneLauncherServo.setPosition(0.0);
+        }
+        if (G2xButton)
+            robot.airplaneLauncherServo.setPosition(1.0);
+        if (G2yButton) {
+            robot.purplePixelServo.setPosition(0.0);
+        }
+
+        if (gamepad1.dpad_up) {
+            robot.intakeRollerServo.setPosition(0.0);
+        }
+        if (gamepad1.dpad_down) {
+            robot.intakeRollerServo.setPosition(1.0);
         }
 
         outtakeArmServo1.setPosition(outtakeArmServoPos1);

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class VisionManager {
 
-    private static final String[] LABELS = {"TEAM_ELEMENT",};
+    private static final String[] LABELS = {"RED_ELEMENT", "BLUE_ELEMENT", "BLUE_ELEMENT"};
     private TfodProcessor tfod;
     private VisionPortal visionPortal;
     private static List<Recognition> currentRecognitions;
@@ -24,13 +24,13 @@ public class VisionManager {
         telemetry.update();
         this.telemetry = telemetry;
         tfod = new TfodProcessor.Builder()
-                .setModelFileName("/sdcard/FIRST/tflitemodels/Team_Element.tflite")
-                .setModelAssetName("Team_Element.tflite")
+                .setModelFileName("/sdcard/FIRST/tflitemodels/NEW_TEAM_ELEMENT.tflite")
+                .setModelAssetName("NEW_TEAM_ELEMENT.tflite")
                 .setModelLabels(LABELS)
                 .build();
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(hardwareMap.get(WebcamName.class, "FrontCamera"));
+        builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
         builder.addProcessor(tfod);
         builder.enableLiveView(true);
         visionPortal = builder.build();
@@ -78,7 +78,7 @@ public class VisionManager {
             List<Recognition> recognitions = getRecognitions();
             if (recognitions.size() > 1) {
 
-            } else if (recognitions.size() > 0 && recognitions.get(0).getLabel().equals("TEAM_ELEMENT")) return true;
+            } else if (recognitions.size() > 0 && ( recognitions.get(0).getLabel().equals("RED_ELEMENT") || recognitions.get(0).getLabel().equals("RED_ELEMENT"))) return true;
             return false;
         }
 

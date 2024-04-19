@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -26,6 +27,7 @@ public class AutonomousV2 extends LinearOpMode {
     public Servo outtakeArmServo2;
     public Servo pixelDropServo;
     public Servo purplePixelServo;
+    public Servo cameraServo;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -42,8 +44,24 @@ public class AutonomousV2 extends LinearOpMode {
         TrajectorySequence Target1Left = drive.trajectorySequenceBuilder(new Pose2d(12.00, -63.00, Math.toRadians(270.00)))
                 .lineToConstantHeading(new Vector2d(11.94, -37.78))
                 .lineToConstantHeading(new Vector2d(0.49, -37.50))
+                //Drop Purple pixel
+                .addDisplacementMarker(() -> {
+                    purplePixelServo.setPosition(0);
+                })
+                .waitSeconds(1)
                 .lineToLinearHeading(new Pose2d(39.04, -30.24, Math.toRadians(180.00)))
+                .addDisplacementMarker(() -> {
+                    outtakeArmServo1.setPosition(0.8);
+                    outtakeArmServo2.setPosition(0.1);
+
+                    pixelHolderTiltServo2.setPosition(.45);
+                    pixelHolderTiltServo2.setPosition(.55);
+                })
                 .lineToConstantHeading(new Vector2d(50.35, -29.68))
+                .addDisplacementMarker(() -> {
+                pixelDropServo.setPosition(0.0);
+                })
+                .waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(22.14, -11.38))
                 .lineToConstantHeading(new Vector2d(-59.01, -11.94))
                 .lineToConstantHeading(new Vector2d(38.90, -11.80))
@@ -54,18 +72,45 @@ public class AutonomousV2 extends LinearOpMode {
         TrajectorySequence Target2Middle = drive.trajectorySequenceBuilder(new Pose2d(12.00, -63.00, Math.toRadians(270.00)))
                 .lineToConstantHeading(new Vector2d(11.94, -34.50))
                 .lineToConstantHeading(new Vector2d(42.95, -36.52))
+                .addDisplacementMarker(() -> {
+                    purplePixelServo.setPosition(0);
+                })
+                .waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(50.21, -36.52))
-                .lineToConstantHeading(new Vector2d(34.99, -11.80))
-                .lineToConstantHeading(new Vector2d(-59.01, -11.94))
-                .lineToConstantHeading(new Vector2d(34.85, -11.80))
-                .lineToConstantHeading(new Vector2d(43.93, -36.66))
-                .lineToConstantHeading(new Vector2d(50.21, -36.52))
+                .addDisplacementMarker(() -> {
+                    outtakeArmServo1.setPosition(0.8);
+                    outtakeArmServo2.setPosition(0.1);
+
+                    pixelHolderTiltServo2.setPosition(.45);
+                    pixelHolderTiltServo2.setPosition(.55);
+                })
+                .waitSeconds(1)
+                .addDisplacementMarker(() -> {
+                    pixelDropServo.setPosition(0.0);
+                })
+                .waitSeconds(1)
                 .build();
 
         TrajectorySequence Target3Right = drive.trajectorySequenceBuilder(new Pose2d(12.00, -63.00, Math.toRadians(270.00)))
                 .UNSTABLE_addTemporalMarkerOffset(11.90,() -> {})
                 .lineToConstantHeading(new Vector2d(23.53, -42.95))
+                .addDisplacementMarker(() -> {
+                    purplePixelServo.setPosition(0);
+                })
+                .waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(50.35, -42.81))
+                .addDisplacementMarker(() -> {
+                    outtakeArmServo1.setPosition(0.8);
+                    outtakeArmServo2.setPosition(0.1);
+
+                    pixelHolderTiltServo2.setPosition(.45);
+                    pixelHolderTiltServo2.setPosition(.55);
+                })
+                .waitSeconds(1)
+                .addDisplacementMarker(() -> {
+                    pixelDropServo.setPosition(0.0);
+                })
+                .waitSeconds(1)
                 .lineToConstantHeading(new Vector2d(27.86, -12.64))
                 .lineToConstantHeading(new Vector2d(-59.29, -12.08))
                 .lineToConstantHeading(new Vector2d(33.03, -12.50))
@@ -77,22 +122,25 @@ public class AutonomousV2 extends LinearOpMode {
         telemetry.addData("(Odometry) Status:", "<Ready>");
         telemetry.update();
 
-        visionManager = new VisionManager(hardwareMap, .75f, telemetry);
+        visionManager = new VisionManager(hardwareMap, .41f, telemetry);
 
-        airplaneLauncherServo = hardwareMap.get(Servo.class, "servo5");
+        airplaneLauncherServo = hardwareMap.get(Servo.class, "servo6");
         pixelHolderTiltServo1 = hardwareMap.get(Servo.class, "servo0");
         pixelHolderTiltServo2 = hardwareMap.get(Servo.class, "servo1");
         outtakeArmServo1 = hardwareMap.get(Servo.class, "servo2");
         outtakeArmServo2 = hardwareMap.get(Servo.class, "servo4");
         pixelDropServo = hardwareMap.get(Servo.class, "servo3");
-        purplePixelServo = hardwareMap.get(Servo.class, "servo6");
+        cameraServo = hardwareMap.get(Servo.class, "servo5");
+        purplePixelServo = hardwareMap.get(Servo.class, "purplePixelServo");
 
-        purplePixelServo.setPosition(.75);
-        pixelHolderTiltServo1.setPosition(.35);
-        pixelHolderTiltServo2.setPosition(0);
-        outtakeArmServo1.setPosition(0.85);
-        outtakeArmServo2.setPosition(0.15);
-        pixelDropServo.setPosition(0.0); //1.0 to drop
+        cameraServo.setPosition(.35);
+
+//        purplePixelServo.setPosition(.75);
+//        pixelHolderTiltServo1.setPosition(.35);
+//        pixelHolderTiltServo2.setPosition(0);
+//        outtakeArmServo1.setPosition(0.85);
+//        outtakeArmServo2.setPosition(0.15);
+//        pixelDropServo.setPosition(0.0); //1.0 to drop
 
         waitForStart();
 
@@ -111,7 +159,7 @@ public class AutonomousV2 extends LinearOpMode {
                 //Determine Team Element on position 1
                 timer.reset();
                 while (timer.milliseconds() < 1300) {
-                    cameraServo.setPosition(0.35);
+                    cameraServo.setPosition(0.5);
                     if (visionManager.determineTeamElement()) {
                         targetPosition = 1;
                         targetFound = true;
@@ -124,7 +172,7 @@ public class AutonomousV2 extends LinearOpMode {
                 telemetry.update();
                 timer.reset();
                 while (timer.milliseconds() < 1300) {
-                    cameraServo.setPosition(0.5);
+                    cameraServo.setPosition(0.65);
                     if (visionManager.determineTeamElement()) {
                         targetPosition = 2;
                         targetFound = true;
@@ -137,7 +185,7 @@ public class AutonomousV2 extends LinearOpMode {
                 telemetry.update();
                 timer.reset();
                 while (timer.milliseconds() < 1300) {
-                    cameraServo.setPosition(.65);
+                    cameraServo.setPosition(.80);
                     if (visionManager.determineTeamElement()) {
                         targetPosition = 3;
                         targetFound = true;
